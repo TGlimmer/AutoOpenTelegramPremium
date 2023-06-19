@@ -11,15 +11,14 @@
 + Windows
   > https://go.dev/ 前往Golang官方网站进行下载安装，如不会建议Google。
 + Linux
-  > Centos  
-  yum install golang  
-  <BR>
-  Ubuntu  
-  sudo apt-get install golang
+   - Centos  
+  > yum install golang
+  - Ubuntu  
+  > sudo apt-get install golang
 
 ### 安装依赖
 
-+ golang
++ golang  
     >   go mod init   
         go mod tidy   
         或者  

@@ -342,12 +342,12 @@ func transferTon(amount string, payload string) {
 	if balance.NanoTON().Uint64() >= 3000000 {
 		addr := address.MustParseAddr("EQBAjaOyi2wGWlk-EDkSabqqnF-MrrwMadnwqrurKpkla9nE") //这里是官方的钱包地址 请勿更改 否则开通会员将不会到账
 		// 创建消息
-		comment, err := wallet.CreateCommentCell("Hello from Miya!")
+		comment, err := wallet.CreateCommentCell(fmt.Sprintf("Telegram Premium for 3 months Ref#%s", payload)) //这里的3是开通3个月需要和上方的月份对应
 		if err != nil {
 			log.Fatalln("CreateComment err:", err.Error())
 			return
 		}
-		amount := tlb.MustFromTON("0.000001")
+		amount := tlb.MustFromTON(amount)
 
 		log.Printf("付款地址: %s , 金额: %v\n", addr, amount)
 

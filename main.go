@@ -11,11 +11,13 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 	"unicode"
 
+	"github.com/joho/godotenv"
 	"github.com/xssnick/tonutils-go/address"
 	"github.com/xssnick/tonutils-go/liteclient"
 	"github.com/xssnick/tonutils-go/tlb"
@@ -35,17 +37,32 @@ type RequestPayload struct {
 	Method     string
 }
 
-const apiURL = "https://fragment.com/api?hash=替换为你自己的hash" //替换为你自己的hash
+var (
+	UserName string = os.Getenv("OpenUserName") // 需要开通的用户名
+	Duration string = os.Getenv("OpenDuration") // 需要开通的月份
+	Hash     string = os.Getenv("ResHash")      // 接口的hash
+	Cookie   string = os.Getenv("ResCookie")    // 接口的 cookie
+	apiURL   string = fmt.Sprintf("https://fragment.com/api/v1/%s", Hash)
+	Mnemonic string = os.Getenv("WalletMnemonic") // 钱包助记词
+)
 
 func main() {
-
+	// 初始化配置文件
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("配置文件加载失败，请检查！", err)
+	}
 	// 创建 PaymentService 实例
 	ps := &PaymentService{}
-
-	// 示例 1：获取对方信息
+	duration, err := strconv.ParseInt(Duration, 10, 64)
+	if err != nil {
+		log.Println("Error:", err)
+		return
+	}
+	// 获取对方信息
 	payload1 := RequestPayload{
-		Query:  "miya0v0", //需要开通的用户名
-		Months: 3,         //需要开通的月份
+		Query:  UserName,      //需要开通的用户名
+		Months: int(duration), //需要开通的月份
 		Method: "searchPremiumGiftRecipient",
 	}
 	result1, err := ps.SendRequest(payload1)
@@ -58,7 +75,7 @@ func main() {
 	// 获取 reqid
 	payload2 := RequestPayload{
 		Recipient: recipient,
-		Months:    3, //需要开通的月份
+		Months:    int(duration), //需要开通的月份
 		Method:    "initGiftPremiumRequest",
 	}
 	result2, err := ps.SendRequest(payload2)
@@ -118,7 +135,7 @@ func (ps *PaymentService) SendRequest(payload RequestPayload) (map[string]interf
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Cookie", "这里需要替换为你自己的cookie") //需要替换为你自己的 https://fragment.com cookie
+	req.Header.Set("Cookie", Cookie)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -182,7 +199,7 @@ func (p *PaymentService) GetRawRequest(id string) (string, string, error) {
 		return "", "", err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Cookie", "这里需要替换为你自己的cookie") //需要替换为你自己的 https://fragment.com cookie
+	req.Header.Set("Cookie", Cookie)
 	resp, err := client.Do(req)
 	if err != nil {
 		return "", "", err
@@ -315,8 +332,7 @@ func transferTon(amount string, payload string) {
 
 	fmt.Printf("\nTransactions:\n")
 
-	// 这里填写你自己的TON钱包的助记词 请用空格分割
-	words := strings.Split("这里填写你自己的TON钱包的助记词", " ")
+	words := strings.Split(Mnemonic, " ")
 
 	w, err := wallet.FromSeed(api, words, wallet.V4R2)
 
@@ -342,7 +358,7 @@ func transferTon(amount string, payload string) {
 	if balance.NanoTON().Uint64() >= 3000000 {
 		addr := address.MustParseAddr("EQBAjaOyi2wGWlk-EDkSabqqnF-MrrwMadnwqrurKpkla9nE") //这里是官方的钱包地址 请勿更改 否则开通会员将不会到账
 		// 创建消息
-		comment, err := wallet.CreateCommentCell(fmt.Sprintf("Telegram Premium for 3 months Ref#%s", payload)) //这里的3是开通3个月需要和上方的月份对应
+		comment, err := wallet.CreateCommentCell(fmt.Sprintf("Telegram Premium for %s months Ref#%s", Duration, payload)) //这里的3是开通3个月需要和上方的月份对应
 		if err != nil {
 			log.Fatalln("CreateComment err:", err.Error())
 			return

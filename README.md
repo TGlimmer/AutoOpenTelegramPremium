@@ -56,12 +56,12 @@
 无需人工协助，用户可自行免费注册，后台自助实现入金、开卡、绑卡、销卡、查询等操作，支持无限开卡、在线接码。  
 ✅支持 OpenAi 人工智能 chatGPT PLUS 开通   
 ✅支持 开通Telegram飞机会员  
-➡️➡️➡️ [点击领取你的国际信用卡](https://t.me/EKaPayBot?start=FV6S5XHT9H)
+➡️➡️➡️ [点击领取你的国际信用卡](https://gpt.fomepay.com/#/pages/login/index?d=O179F9)
 
 ## AD -- 机器人推广
 
-24小时自动发卡机器人：[自动发卡](https://t.me/fakatestbot)
-> 24小时自动发卡机器人 对接独角
+查币机器人 - 链上信息查询：[查币机](https://t.me/QueryTokenBot)
+> 可查地址信息 代币实时价格等等
 
 兑币机 - TRX自动兑换：[兑币机](https://t.me/ConvertTrxBot)
 > 自用兑币机，并不是开源版机器人！！！

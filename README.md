@@ -56,7 +56,7 @@
 无需人工协助，用户可自行免费注册，后台自助实现入金、开卡、绑卡、销卡、查询等操作，支持无限开卡、在线接码。  
 ✅支持 OpenAi 人工智能 chatGPT PLUS 开通   
 ✅支持 开通Telegram飞机会员  
-➡️➡️➡️ [点击领取你的国际信用卡](https://gpt.fomepay.com/#/pages/login/index?d=O179F9)
+➡️➡️➡️ [点击领取你的国际信用卡](https://t.me/pikabaobot?start=0480f979-3)
 
 ## AD -- 机器人推广
 
